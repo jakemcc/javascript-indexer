@@ -74,20 +74,11 @@
   [m]
   (mapv (fn [[k v]] {:entry k :definition v}) m))
 
-(defn dictionary
-  [title creator entries]
-  {:title title
-   :creator creator
-   :words entries})
-
 (defn generate
   [fj-directory]
   (let [files (find-files fj-directory "js")
-        dict (apply merge (map generate-mapping files))
-        entries (map->entries dict)]
-    (dictionary "Functional Javascript Companion"
-                "Jake McCrary"
-                entries)))
+        dict (apply merge (map generate-mapping files))]
+    (map->entries dict)))
 
 (defn -main
   "Takes 1 or more directories containing javascript source. Prints dictionary representation of source to screen. Representation is able to be read using read-string."

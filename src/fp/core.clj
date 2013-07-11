@@ -5,7 +5,7 @@
   [line]
   (.startsWith line "function "))
 
-(defn count-character
+ (defn count-character
   [c s]
   (count (filter #(= c %) s)))
 
@@ -60,3 +60,32 @@
   (when-let [match (re-find #"function\s+(\w+)" (first js-code))]
     (second match)))
 
+(defn generate-mapping
+  [file-path]
+  (let [functions (read-file file-path)
+        fn-names (map extract-name functions)]
+    (zipmap fn-names functions)))
+
+(defn find-files
+  [directory x]
+  (filter #(.contains (.getName %) x)
+          (file-seq (clojure.java.io/file directory))))
+
+(defn map->entries
+  [m]
+  (mapv (fn [[k v]] {:entry k :definition v}) m))
+
+(defn dictionary
+  [title creator entries]
+  {:title title
+   :creator creator
+   :words entries})
+
+(defn generate
+  []
+  (let [files (find-files "../book-source" "js")
+        dict (apply merge (map generate-mapping files))
+        entries (map->entries dict)]
+    (dictionary "Functional Javascript Companion"
+                "Jake McCrary"
+                entries)))

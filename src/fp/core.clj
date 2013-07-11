@@ -5,15 +5,15 @@
   [line]
   (.startsWith line "function "))
 
- (defn count-character
+(defn count-character
   [c s]
   (count (filter #(= c %) s)))
 
-(defn num-open-brace
+(defn count-open-braces
   [line]
   (count-character \{ line))
 
-(defn num-close-brace
+(defn count-closing-braces
   [line]
   (count-character \} line))
 
@@ -23,8 +23,8 @@
   [line prev-state]
   (if (starts-function line)
     {:state :inside-fn
-     :parens (- (num-open-brace line)
-                (num-close-brace line))
+     :parens (- (count-open-braces line)
+                (count-closing-braces line))
      :code [line]}
     prev-state))
 
@@ -33,8 +33,8 @@
   (let [prev-parens (:parens prev-state)
         prev-lines (:code prev-state)]
     (assoc prev-state
-      :parens (- prev-parens (- (num-close-brace line)
-                                (num-open-brace line)
+      :parens (- prev-parens (- (count-closing-braces line)
+                                (count-open-braces line)
                                 ))
       :code (conj prev-lines line))))
 
@@ -43,8 +43,7 @@
   ([lines state functions]
      (if (seq lines)
        (let [new-state (parse-line (first lines) state)]
-         (if
-             (and (= :inside-fn (:state new-state))
+         (if (and (= :inside-fn (:state new-state))
                   (zero? (:parens new-state)))
            (recur (rest lines) {:state :outside} (conj functions (:code new-state)))
            (recur (rest lines) new-state functions)))
@@ -82,10 +81,21 @@
    :words entries})
 
 (defn generate
-  []
-  (let [files (find-files "../book-source" "js")
+  [fj-directory]
+  (let [files (find-files fj-directory "js")
         dict (apply merge (map generate-mapping files))
         entries (map->entries dict)]
     (dictionary "Functional Javascript Companion"
                 "Jake McCrary"
                 entries)))
+
+(defn -main
+  "Takes 1 or more directories containing javascript source. Prints dictionary representation of source to screen. Representation is able to be read using read-string."
+  [& args]
+  (if (>= (count args) 1)
+    (prn (apply merge (map generate args)))
+    (println "Need to pass at least one directory of javascript source at command line")))
+
+(comment
+  (-main "../book-source")
+  )

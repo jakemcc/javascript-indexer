@@ -1,4 +1,4 @@
-(ns fp.core
+(ns javascript-indexer.core
   (:require [clojure.string :as str]))
 
 (defn starts-function

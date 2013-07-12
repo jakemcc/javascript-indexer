@@ -86,7 +86,3 @@
   (if (>= (count args) 1)
     (prn (apply merge (map generate args)))
     (println "Need to pass at least one directory of javascript source at command line")))
-
-(comment
-  (-main "../book-source")
-  )

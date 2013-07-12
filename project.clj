@@ -1,5 +1,5 @@
 (defproject fp "0.1.0-SNAPSHOT"
-  :description "Generates a dictionary representation of javascript source directories. Dictionary maps function names to implementation."
+  :description "Generates a data structure representing an index which maps function name to function implementation."
   :url ""
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}

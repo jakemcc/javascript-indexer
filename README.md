@@ -29,3 +29,8 @@ This is a really simple parser. It only supports extracting functions look like 
     }
 
     function isEven(n) { return (n%2) === 0 }
+
+
+## License
+
+See LICENSE.txt.

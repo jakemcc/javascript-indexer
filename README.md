@@ -1,6 +1,10 @@
 # JavaScript Indexer
 
-Super simple JavaScript parser written in Clojure to create a representation of JavaScript function names to implementations. It was written to support the creation of a Kindle dictionary of function names to function implementations for Fogus's _Functional JavaScript_ book. This dictionary can be found [here](http://jakemccrary.com/blog/2013/07/09/releasing-the-functional-javascript-companion/).
+Super simple JavaScript parser written in Clojure to create a representation of JavaScript function names to implementations.
+
+## Why?
+
+It was written to support the creation of a Kindle dictionary of function names to function implementations for Fogus's _Functional JavaScript_ book. This dictionary can be found [here](http://jakemccrary.com/blog/2013/07/09/releasing-the-functional-javascript-companion/).
 
 ## Usage
 
